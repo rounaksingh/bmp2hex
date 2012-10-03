@@ -5,21 +5,23 @@
 	-BMP_WRITE to read the text file from microController
 			& write into bmp.
 */
-#define BUFFER_SIZE 1			//don't make too large for small files.
+#define BUFFER_SIZE 10		//don't make too large for small files.
 #define BMP_WRITE 1
 
 int main()
 {
 	FILE *file_stream_in;
-	FILE *file_stream_out;
+	//FILE *file_stream_out;
 	
 	unsigned char c[BUFFER_SIZE];
 	
 ////////////////////////////////////////////////////////////////////////////
-	#if defined BMP_READ
+	//#if defined BMP_READ
 	file_stream_in=fopen("Logo.bmp","rb");
-	fread(&c[0],1,sizeof(unsigned char),file_stream_in);
 	
+	fread(&c[0],BUFFER_SIZE,sizeof(unsigned char),file_stream_in);
+	print_buf(&c[0],BUFFER_SIZE);
+
 //////////////////////////////////////////////////////////////////////////
 	#elif defined BMP_WRITE
 	
@@ -45,3 +47,15 @@ int main()
 	return 0;
 }
 
+unsigned int print_buffer(char *buf_ptr,unsigned int buf_size)
+{
+	unsigned int i;
+
+	for(i=0;i<buf_size;i++)
+	{
+		printf("%c ",buf_ptr);
+		buf_ptr++;
+	}
+return (buf_size);
+
+}
