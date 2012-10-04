@@ -9,3 +9,4 @@
 #define FILE_READ_ERROR 	4
 #define FILE_EOF_REACHED 	5
 #define FILE_EXISTS		6
+#define FILE_SEEK_ERROR		7
