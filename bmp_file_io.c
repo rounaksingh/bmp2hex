@@ -9,7 +9,8 @@
 //#define BMP_WRITE 1
 
 //function prototype
-unsigned int print_buf(char *buf_ptr,unsigned int buf_size);
+//unsigned int print_buf(char *buf_ptr,unsigned int buf_size);
+unsigned int print_buf(char *buf_ptr,unsigned int buf_size,long int *count_ptr);
 
 int main()
 {
@@ -19,6 +20,7 @@ int main()
 	
 	unsigned char c[BUFFER_SIZE];
 	long int i=0; 		//if BUFFER_SIZE is long make it long.
+	long int counter=0;
 ////////////////////////////////////////////////////////////////////////////
 	//#if defined BMP_READ
 	file_stream_in=fopen("Cover.bmp","rb");
@@ -36,9 +38,10 @@ int main()
 	{
 	i=fread(&c[0],BUFFER_SIZE,sizeof(unsigned char),file_stream_in);
 
-	i=ftell(file_stream_in);	
-	printf("%ld ",i);
-	
+	//i=ftell(file_stream_in);	
+	//printf("%ld ",i);
+
+
 	/*TTesting fseek changing the seek one by one & printing the s
 	seek value one by one.
 	while(!feof(file_stream_in))
@@ -51,14 +54,15 @@ int main()
 	}
 */
 	/* TO print each byte with its offset number
+	*/
 	if(i==0)
 //	print_buf(&c[0],i);
 	i=0;
 	else
-	print_buf(&c[0],BUFFER_SIZE);
-	*/
-	}
+	print_buf(&c[0],BUFFER_SIZE,&counter);
 	
+	}
+
 	fclose(file_stream_in);
 //////////////////////////////////////////////////////////////////////////
 	/*
@@ -87,15 +91,17 @@ int main()
 	return 0;
 }
 
-unsigned int print_buf(char *buf_ptr,unsigned int buf_size)
+unsigned int print_buf(char *buf_ptr,unsigned int buf_size,long int *count_ptr)
 {
 	int i;
 	char c;
 	for(i=0;i<=buf_size;i++)
 	{
 		c=*buf_ptr;
-		printf("%d %c %x\n",i,c,c);
+		printf("%ld %c %x\n",*count_ptr,c,c);
 		buf_ptr++;
+		/*increase the value of the content of the count_ptr*/
+		(*count_ptr)++;
 	}
 return (buf_size);
 
