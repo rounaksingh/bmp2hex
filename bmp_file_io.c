@@ -26,7 +26,11 @@ int main()
 	file_stream_in=fopen("Logo.bmp","rb");
 	if(file_stream_in==NULL)
 	return FILE_OPEN_ERROR;
-	
+	/*
+	fseek(file_stream_in, 0, SEEK_END);
+	i = ftell(file_stream_in);
+	printf("%ld",i);
+	*/
 	/*
 	This program reads the data & return the last seek location(offset 
 	from the begining.). 
@@ -36,11 +40,10 @@ int main()
 	*/
 	while(!feof(file_stream_in))
 	{
-	i=fread(&c[0],BUFFER_SIZE,sizeof(unsigned char),file_stream_in);
-
+	i=fread(&c[0],sizeof(unsigned char),BUFFER_SIZE,file_stream_in);
+	
 	//i=ftell(file_stream_in);	
 	//printf("%ld ",i);
-
 
 	/*TTesting fseek changing the seek one by one & printing the s
 	seek value one by one.
@@ -55,12 +58,17 @@ int main()
 */
 	/* TO print each byte with its offset number
 	*/
-	if(i==0)
-//	print_buf(&c[0],i);
-	i=0;
+	
+	if(i!=BUFFER_SIZE)
+	print_buf(&c[0],i,&counter);
+		//i=0;
+		//fread(&c[0],sizeof(char),i,file_stream_in);	
+		//fseek(file_stream_in,-i,SEEK_END);		
+		//i=ftell(file_stream_in);	
+		//printf("%ld ",i);
 	else
 	print_buf(&c[0],BUFFER_SIZE,&counter);
-	
+
 	}
 
 	fclose(file_stream_in);
