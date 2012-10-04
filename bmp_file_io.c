@@ -23,7 +23,7 @@ int main()
 	long int counter=0;
 ////////////////////////////////////////////////////////////////////////////
 	//#if defined BMP_READ
-	file_stream_in=fopen("Cover.bmp","rb");
+	file_stream_in=fopen("Logo.bmp","rb");
 	if(file_stream_in==NULL)
 	return FILE_OPEN_ERROR;
 	
