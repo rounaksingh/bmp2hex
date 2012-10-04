@@ -5,6 +5,7 @@
 	-BMP_WRITE to read the text file from microController
 			& write into bmp.
 */
+#define FILE_OUT
 #define BUFFER_SIZE 4096		//don't make too large for small files.
 //#define BMP_WRITE 1
 
@@ -15,17 +16,25 @@ unsigned int print_buf(char *buf_ptr,unsigned int buf_size,long int *count_ptr);
 int main()
 {
 	FILE *file_stream_in;
+	#ifdef FILE_OUT
+	FILE *file_stream_out;
+	#endif
 
-//	FILE *file_stream_out;
-	
 	unsigned char c[BUFFER_SIZE];
 	long int i=0; 		//if BUFFER_SIZE is long make it long.
 	long int counter=0;
 ////////////////////////////////////////////////////////////////////////////
 	//#if defined BMP_READ
-	file_stream_in=fopen("Logo.bmp","rb");
+	file_stream_in=fopen("Cover.bmp","rb");
 	if(file_stream_in==NULL)
 	return FILE_OPEN_ERROR;
+
+	#ifdef FILE_OUT
+	file_stream_out=fopen("Cover_test.bmp","wb");
+	if(file_stream_out==NULL)
+	return FILE_OPEN_ERROR;
+	#endif	
+	
 	/*
 	fseek(file_stream_in, 0, SEEK_END);
 	i = ftell(file_stream_in);
@@ -59,44 +68,34 @@ int main()
 	/* TO print each byte with its offset number
 	*/
 	
-	if(i!=BUFFER_SIZE)
-	print_buf(&c[0],i,&counter);
-		//i=0;
-		//fread(&c[0],sizeof(char),i,file_stream_in);	
-		//fseek(file_stream_in,-i,SEEK_END);		
-		//i=ftell(file_stream_in);	
-		//printf("%ld ",i);
-	else
-	print_buf(&c[0],BUFFER_SIZE,&counter);
+		if(i!=BUFFER_SIZE)
 
+		#ifdef FILE_OUT
+		fwrite(&c[0],sizeof(char),i,file_stream_out);		
+		#endif
+		#ifndef FILE_OUT		
+		print_buf(&c[0],i,&counter);
+		#endif
+			//i=0;
+			//fread(&c[0],sizeof(char),i,file_stream_in);	
+			//fseek(file_stream_in,-i,SEEK_END);		
+			//i=ftell(file_stream_in);	
+			//printf("%ld ",i);
+		else
+		#ifndef FILE_OUT		
+		print_buf(&c[0],BUFFER_SIZE,&counter);
+		#endif
+		#ifdef FILE_OUT
+		fwrite(&c[0],sizeof(char),BUFFER_SIZE,file_stream_out);
+		#endif	
+	
 	}
 
 	fclose(file_stream_in);
-//////////////////////////////////////////////////////////////////////////
-	/*
-	#elif defined BMP_WRITE
-	
-	file_stream_in=fopen("libbmp-testing-hyper.txt","r");
-	if(file_stream_in==NULL)
-	return OPEN_ERROR_FILE_STREAM_OUT;
-	file_stream_out=fopen("test.bmp","wb");
-	if(file_stream_in==NULL)
-	return OPEN_ERROR_FILE_STREAM_IN;
-	
-	puts("Starting Reading & Writing");
-	while(!feof(file_stream_in))
-	{
-		fread(&c[0],BUFFER_SIZE,sizeof(unsigned char),file_stream_in);
-		fwrite(&c[0],BUFFER_SIZE,sizeof(unsigned char),file_stream_out);
-	}
-	puts("Completed Read & Write");
-	fclose(file_stream_in);
+	#ifdef FILE_OUT
 	fclose(file_stream_out);
-	
 	#endif
-*/
-	//////////////////////////////////////////////////////////////////////////
-	return 0;
+return 0;
 }
 
 unsigned int print_buf(char *buf_ptr,unsigned int buf_size,long int *count_ptr)
