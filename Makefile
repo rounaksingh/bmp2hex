@@ -6,12 +6,13 @@
 
 GCC = gcc
 
-SOURCE = pngimage
-SOURCE_EXT = cc
+SOURCE = bmp2hex
+SOURCE_EXT = c
 
 all   :   compile
 
 compile : 
-	$(GCC) $(SOURCE).$(SOURCE_EXT) -o $(SOURCE) -I/usr/local/include\
-	 -L/usr/local/lib -lpng -lpngwriter -lz -DNO_FREETYPE
+	$(GCC) $(SOURCE).$(SOURCE_EXT) -o $(SOURCE) -Wall
 
+clean :
+	rm -f $(SOURCE)
