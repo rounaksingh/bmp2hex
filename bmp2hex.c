@@ -35,11 +35,6 @@
 #define BUFFER_SIZE 4096
 #define MAX_COLUMN 0x10
 
-//function prototypes
-unsigned int print_buf(unsigned char *buf_ptr,unsigned int buf_size,long int *count_ptr);
-int hex_write(unsigned char *buf_ptr,unsigned int buf_size,long int *count_ptr,FILE *file_write);
-int start_of_file(FILE *file_write);
-
 int main(int argc, char *argv[])
 {
 	FILE *file_stream_in;
